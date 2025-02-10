@@ -1,18 +1,18 @@
 import random
 
-games = list()
+variants = list()
 #ведення даних
 
 while True:
-    games_name = str(input("Назва гри "))
-    if games_name == "":
+    choices_name = str(input("Введіть назву "))
+    if choices_name == "":
         break    
-    games.append(games_name)
+    variants.append(choices_name)
 
 #рандомізація
 try:
-    result = random.choice(games)
-    print (f"Ви граєте у {result}")
+    result = random.choice(variants)
+    print (f"Цього разу це {result}")
 except:
     print ("Ви що самі вирішили?")
 
