@@ -15,7 +15,7 @@ def total_salary(path):
             average = total / len(x)
             print(f"Загальна сума заробітної плати: {total}, Середня заробітна плата: {average}")
     except FileNotFoundError:
-        print ("Файл не знайденб перевірте правильність шляху")
+        print ("Файл не знайденo перевірте правильність шляху")
     except ValueError:
         print("Помилка в форматі файлу")
     
