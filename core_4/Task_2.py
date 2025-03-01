@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 
 with open("core_4\\Cats_file.txt", 'w') as file:
     file.write ('''60b90c1c13067a15887e1ae1,Tayson,3
@@ -10,7 +9,7 @@ with open("core_4\\Cats_file.txt", 'w') as file:
 ''')
 def get_cats_info(path):
     try:    
-        with open("core_4\\Cats_file.txt", 'r') as file:
+        with open(path, 'r') as file:
             cats_info = []
             for line in file:
                 id, name, age = line.split(",")
@@ -23,3 +22,4 @@ def get_cats_info(path):
         print("Помилка в форматі файлу")
 
 get_cats_info("core_4\\Cats_file.txt")
+
