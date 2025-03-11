@@ -7,7 +7,7 @@ def generator_numbers(text: str):
     for number in numbers:
         yield float(number)
        
-def sum_profit(text: str, func: Callable):
+def sum_profit(text, func):
     return sum(func(text))
     
 
