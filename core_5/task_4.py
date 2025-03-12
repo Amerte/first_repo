@@ -12,11 +12,12 @@ def input_error(func):
     return inner
 
 
-
-def parse_input(user_input):
+@input_error
+def parse_input(user_input):   
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
+
 
 @input_error
 def add_contact(args, contacts):
@@ -45,6 +46,9 @@ def main():
     print("Welcome to the assistant bot!")
     while True:
         user_input = input("Enter a command: ")
+        if user_input == "":
+            print ("write the write command")
+        
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
@@ -57,7 +61,10 @@ def main():
         elif command == "change":
             print(change_contact(args, contacts))
         elif command =="phone":
-            print(show_phone(args[0], contacts))
+            try:
+                print(show_phone(args[0], contacts))
+            except IndexError:
+                print ("Enter the name to search for a phone number.")
         elif command == "all":
             print(show_all(contacts))
         else:
