@@ -47,7 +47,8 @@ def main():
     while True:
         user_input = input("Enter a command: ")
         if user_input == "":
-            print ("write the write command")
+            print ("write the right command")
+            continue
         
         command, *args = parse_input(user_input)
 
