@@ -17,7 +17,7 @@ def total_salary(path):
     except FileNotFoundError:
         print ("Файл не знайденo перевірте правильність шляху")
     except ValueError:
-        print("Помилка в форматі файлу")
+        print("Помилка в форматі файлу!")
     
 
 total_salary(salary_file)
