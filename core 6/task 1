@@ -1,0 +1,11 @@
+class Animal:
+    def __init__(self, nickname, weight: float):
+        self.nickname = nickname
+        self.weight = weight
+        
+    def say(self):
+        print (f"{self.nickname} say {self.say}")
+
+animal = Animal("Sneak", 2.1)
+
+say("Shhhh")
