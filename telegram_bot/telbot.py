@@ -82,34 +82,33 @@ def fetch_orderbooks(symbol: str):
         except Exception as e:
             logger.warning(f"{ex} error: {e}")
 
-    best_bid = max(all_bids.keys()) if all_bids else None
-    best_ask = min(all_asks.keys()) if all_asks else None
-
-    return all_bids, all_asks, best_bid, best_ask
+    return all_bids, all_asks
 
 # --- строим график ---
-def plot_orderbook(bids, asks, symbol, timeframe):
+def plot_orderbook(bids, asks, symbol):
     if not bids or not asks:
         return None
 
-    # --- берём 3 самых больших объёма ---
-    top_bids = sorted(bids.items(), key=lambda x: x[1], reverse=True)[:3]
-    top_asks = sorted(asks.items(), key=lambda x: x[1], reverse=True)[:3]
+    # --- берём 20 крупнейших покупок и продаж ---
+    top_bids = sorted(bids.items(), key=lambda x: x[1], reverse=True)[:20]
+    top_asks = sorted(asks.items(), key=lambda x: x[1], reverse=True)[:20]
 
-    # --- создаём данные для графика ---
-    prices = [p for p,_ in top_bids] + [p for p,_ in top_asks]
-    volumes = [v for _,v in top_bids] + [v for _,v in top_asks]
-    colors = ["green"]*3 + ["red"]*3
+    # сортировка для наглядности
+    top_bids_sorted = [top_bids[0]] + sorted(top_bids[1:], key=lambda x: x[0], reverse=True)
+    top_asks_sorted = sorted(top_asks[:-1], key=lambda x: x[0]) + [top_asks[-1]]
 
-    plt.figure(figsize=(10,6))
+    plot_prices = [p for p,_ in top_bids_sorted] + [p for p,_ in top_asks_sorted]
+    plot_volumes = [v for _,v in top_bids_sorted] + [v for _,v in top_asks_sorted]
+    colors = ["green"]*len(top_bids_sorted) + ["red"]*len(top_asks_sorted)
 
-    # рисуем вертикальные линии
-    for i, price in enumerate(prices):
-        plt.vlines(x=price, ymin=0, ymax=volumes[i], color=colors[i], linewidth=5)
+    plt.figure(figsize=(14,7))
+    plt.bar(range(len(plot_prices)), plot_volumes, color=colors)
 
-    # подписи цен только под линиями
-    plt.xticks(prices, [str(round(p,2)) for p in prices], rotation=45)
-    plt.title(f"Orderbook {symbol} ({timeframe})")
+    xticks_pos = list(range(len(plot_prices)))
+    xticks_labels = [str(p) for p in plot_prices]
+
+    plt.xticks(xticks_pos, xticks_labels, rotation=45)
+    plt.title(f"Orderbook {symbol}")
     plt.xlabel("Цена")
     plt.ylabel("Объем")
     plt.tight_layout()
@@ -119,28 +118,26 @@ def plot_orderbook(bids, asks, symbol, timeframe):
     plt.close()
     return filename
 
-
 # --- обработчик сообщений ---
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         text = update.message.text.strip().upper()
-        parts = text.split()
-        if len(parts) != 2:
-            await update.message.reply_text("Формат: BTCUSDT 1h")
-            return
+        # автоматически добавляем USDT
+        if not text.endswith("USDT"):
+            symbol = text + "USDT"
+        else:
+            symbol = text
 
-        symbol, timeframe = parts
-        bids, asks, best_bid, best_ask = fetch_orderbooks(symbol)
+        bids, asks = fetch_orderbooks(symbol)
 
         logger.info(f"Symbol: {symbol}")
         logger.info(f"Bids sample: {list(bids.items())[:5]}, Asks sample: {list(asks.items())[:5]}")
-        logger.info(f"Best Bid: {best_bid}, Best Ask: {best_ask}")
 
-        if not bids or not asks or best_bid is None or best_ask is None:
+        if not bids or not asks:
             await update.message.reply_text("Нет данных по этому символу.")
             return
 
-        file = plot_orderbook(bids, asks, symbol, timeframe, best_bid, best_ask)
+        file = plot_orderbook(bids, asks, symbol)
         if file is None or not os.path.exists(file):
             await update.message.reply_text("Ошибка при построении графика.")
             return
