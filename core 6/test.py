@@ -1,36 +1,18 @@
-class Animal:
-    def __init__(self, nickname, weight):
-        self.nickname = nickname
-        self.weight = weight
+import tkinter as tk
 
-    def say(self):
-        pass
+root = tk.Tk()
+root.title("Example")
 
 
-class Cat(Animal):
-    def say(self):
-        return "Meow"
+def on_click(event, day):
+    print(f"Day {day} was clicked at {event.x} and {event.y}")
+    event.widget.config(bg='gray')
+
+for day in range(1, 6):
+    lbl = tk.Label(root, text = f"Day {day}", bg = "lightblue", width= 15)
+    lbl.pack(pady = 15)
+
+    lbl.bind("<Button-1>", lambda e, d=day: on_click(e, d))
 
 
-class Dog(Animal):
-    def say(self):
-        return "Woof"
-
-class CatDog(Cat, Dog):
-    def say(self):
-        return "say" 
-
-    def info(self):
-        return f"{self.nickname}-{self.weight}"
-
-class DogCat(Dog, Cat):
-    def say(self):
-        return{self.say} 
-    def info(self):
-        return f"{self.nickname}-{self.weight}"
-    
-        
-
-
-    
-        
+root.mainloop()
