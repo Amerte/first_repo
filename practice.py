@@ -1,6 +1,6 @@
-from datetime import datetime, date, timedelta
-import json
 import os
+from datetime import datetime, date
+import json
 
 
 class DutyCalender:
@@ -35,24 +35,11 @@ class DutyCalender:
                 tmp_dict[formated_date] = duty_place
             json.dump({"duties": tmp_dict, "places":self.places}, f, ensure_ascii=False, indent = 4)
 
-    def add_duty(self,duty_date, place):
-        duty_date = datetime.strptime(duty_date, "%d.%m.%Y").date()
-        if place not in self.places:
-            self.places.append(place)
-        self.duties[duty_date]= place
-        self._save_to_json()
+        
 
-    def add_place(self, place):
-        if place not in self.places:
-            self.places.append(place)
-        self._save_to_json()
+        # try:
+        #     with open("duties.json", "r", encoding="utf-8" ) as f:
+        #         duties = json.load(f)
+        # except FileExistsError:
+        #     open("duties.json", "x", encoding="utf-8")
 
-
-
-
-calendar = DutyCalender("duties.json")
-calendar.add_place("Pegas")
-calendar.add_place("ADR")
-calendar.add_duty("15.01.2026", "ADR")
-print(calendar.duties)
-print(calendar.places)
