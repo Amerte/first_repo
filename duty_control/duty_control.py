@@ -3,7 +3,7 @@ import json
 import os
 
 
-class DutyCalender:
+class DutyCalendar:
     def __init__(self, file_path):
         self.file_path = file_path
         self.places = []
@@ -36,7 +36,7 @@ class DutyCalender:
             json.dump({"duties": tmp_dict, "places":self.places}, f, ensure_ascii=False, indent = 4)
 
     def add_duty(self,duty_date, place):
-        duty_date = datetime.strptime(duty_date, "%d.%m.%Y").date()
+        #duty_date = datetime.strptime(duty_date, "%d.%m.%Y").date()
         if place not in self.places:
             self.places.append(place)
         self.duties[duty_date]= place
@@ -50,9 +50,3 @@ class DutyCalender:
 
 
 
-calendar = DutyCalender("duties.json")
-calendar.add_place("Pegas")
-calendar.add_place("ADR")
-calendar.add_duty("15.01.2026", "ADR")
-print(calendar.duties)
-print(calendar.places)
