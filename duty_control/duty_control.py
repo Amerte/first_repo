@@ -42,11 +42,10 @@ class DutyCalendar:
         self.duties[duty_date]= place
         self._save_to_json()
 
-    def add_place(self, place):
-        if place not in self.places:
+def add_place(self, place):
+        if place.lower() not in [p.lower() for p in self.places]:
             self.places.append(place)
         self._save_to_json()
-
 
 
 

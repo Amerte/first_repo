@@ -6,7 +6,8 @@ from duty_control import DutyCalendar
 def open_add_duty():
     frame_add_duty.pack()
     frame_main.pack_forget()
-    print ("Відкриваємо фрейм додавання наряду")
+    duty_places.configure(values=calendar_data.places)
+    print(calendar_data.places)
 
 def open_statistic():
     frame_statistic.pack()
@@ -38,6 +39,21 @@ def show_pop_up():
     pop_up_label = ctk.CTkLabel(pop_up, text = "Зміни успішно збережені")
     pop_up_label.pack(pady = 50)
     pop_up.grab_set()
+    def ok_clicked():
+        pop_up.destroy()
+        go_back()
+    btn_ok = ctk.CTkButton(pop_up, text ="Ok", command = ok_clicked)
+    btn_ok.pack(pady =60)
+
+def save_add_place():
+    new_place = str_add_place.get()
+    calendar_data.add_place(new_place)
+    show_pop_up()
+    
+
+
+    print(f"New place - {new_place} - has been added")
+    
 
    
 app = ctk.CTk()
@@ -72,8 +88,11 @@ btn_save_add_duty.pack(pady = 60)
 
 
 
-
 frame_add_place = ctk.CTkFrame(app)
+str_add_place = ctk.CTkEntry(frame_add_place, placeholder_text="Write the new place")
+str_add_place.pack(pady =20)
+btn_save_add_place = ctk.CTkButton(frame_add_place, text="Save", command = save_add_place)
+btn_save_add_place.pack(pady = 20)
 
 frame_statistic = ctk.CTkFrame(app)
 
