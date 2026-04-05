@@ -1,6 +1,10 @@
 {
-    "duties": {},
+    "duties": {
+        "05.04.2026": "Pegas",
+        "02.04.2026": "ADR"
+    },
     "places": [
-        
+        "Pegas",
+        "ADR"
     ]
 }

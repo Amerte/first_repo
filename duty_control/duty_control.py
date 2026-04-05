@@ -42,30 +42,30 @@ class DutyCalendar:
         self.duties[duty_date]= place
         self._save_to_json()
 
-def add_place(self, place):
+    def add_place(self, place):
         if place.lower() not in [p.lower() for p in self.places]:
             self.places.append(place)
         self._save_to_json()
 
-def get_statistic(self):
-    current_duties = []
-    prev_duties = []
-    other_duties = []
-    today = date.today()
-    current_month = today.month
-    current_year = today.year
-    first_day_month = date(current_year, current_month, 1)
-    last_day_prev = first_day_month - timedelta(days = 1)
-    prev_month = last_day_prev.month
-    prev_year = last_day_prev.year
-    for duty_date in self.duties:
-        if duty_date.month == current_month and duty_date.year == current_year:
-            current_duties.append(duty_date)
-        elif duty_date.month == prev_month and duty_date.year == prev_year:
-            prev_duties.append(duty_date)
-        else:
-            other_duties.append(duty_date)
-    return current_duties, prev_duties, other_duties
+    def get_statistic(self):
+        current_duties = {}
+        prev_duties = {}
+        other_duties = {}
+        today = date.today()
+        current_month = today.month
+        current_year = today.year
+        first_day_month = date(current_year, current_month, 1)
+        last_day_prev = first_day_month - timedelta(days = 1)
+        prev_month = last_day_prev.month
+        prev_year = last_day_prev.year
+        for duty_date in self.duties:
+            if duty_date.month == current_month and duty_date.year == current_year:
+                current_duties[duty_date] = self.duties[duty_date]
+            elif duty_date.month == prev_month and duty_date.year == prev_year:
+                prev_duties[duty_date] = self.duties[duty_date]
+            else:
+                other_duties[duty_date] = self.duties[duty_date]
+        return current_duties, prev_duties, other_duties
 
 
 

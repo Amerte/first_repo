@@ -12,9 +12,13 @@ def open_add_duty():
 def open_statistic():
     frame_statistic.pack()
     frame_main.pack_forget()
-
-    current, prev, other = calendar_data.get_statistic()
-    print (current)
+    current_duties, prev_duties, other_duties = calendar_data.get_statistic()
+    for cr_duty_date, cr_duty_place in current_duties.items():
+        formated_date = cr_duty_date.strftime("%d,%m,%Y") 
+    print (formated_date, cr_duty_place)
+   
+    #current, prev, other = calendar_data.get_statistic()
+    
     print("Відкриваємо вікно статистики")
 
 def open_add_place():
@@ -98,6 +102,9 @@ btn_save_add_place = ctk.CTkButton(frame_add_place, text="Save", command = save_
 btn_save_add_place.pack(pady = 20)
 
 frame_statistic = ctk.CTkFrame(app)
+
+frame_scrollable = ctk.CTkScrollableFrame(frame_statistic)
+frame_scrollable.pack()
 
 #кнопки повернення
 btn_back_add_duty = ctk.CTkButton(frame_add_duty, text = "Назад", command = go_back)
