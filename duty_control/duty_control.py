@@ -47,5 +47,28 @@ def add_place(self, place):
             self.places.append(place)
         self._save_to_json()
 
+def get_statistic(self):
+    current_duties = []
+    prev_duties = []
+    other_duties = []
+    today = date.today()
+    current_month = today.month
+    current_year = today.year
+    first_day_month = date(current_year, current_month, 1)
+    last_day_prev = first_day_month - timedelta(days = 1)
+    prev_month = last_day_prev.month
+    prev_year = last_day_prev.year
+    for duty_date in self.duties:
+        if duty_date.month == current_month and duty_date.year == current_year:
+            current_duties.append(duty_date)
+        elif duty_date.month == prev_month and duty_date.year == prev_year:
+            prev_duties.append(duty_date)
+        else:
+            other_duties.append(duty_date)
+    return current_duties, prev_duties, other_duties
+
+
+
+
 
 

@@ -12,6 +12,9 @@ def open_add_duty():
 def open_statistic():
     frame_statistic.pack()
     frame_main.pack_forget()
+
+    current, prev, other = calendar_data.get_statistic()
+    print (current)
     print("Відкриваємо вікно статистики")
 
 def open_add_place():
