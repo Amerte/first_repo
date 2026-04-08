@@ -12,12 +12,15 @@ def open_add_duty():
 def open_statistic():
     frame_statistic.pack()
     frame_main.pack_forget()
+    for widget in frame_scrollable.winfo_children():
+        widget.destroy()
     current_duties, prev_duties, other_duties = calendar_data.get_statistic()
     for cr_duty_date, cr_duty_place in current_duties.items():
-        formated_date = cr_duty_date.strftime("%d,%m,%Y") 
-    print (formated_date, cr_duty_place)
+        formated_date = cr_duty_date.strftime("%d.%m.%Y")
+        label = ctk.CTkLabel(frame_scrollable, text = f"{formated_date} the duty on the {cr_duty_place}")
+        label.pack()
+        
    
-    #current, prev, other = calendar_data.get_statistic()
     
     print("Відкриваємо вікно статистики")
 
@@ -101,10 +104,14 @@ str_add_place.pack(pady =20)
 btn_save_add_place = ctk.CTkButton(frame_add_place, text="Save", command = save_add_place)
 btn_save_add_place.pack(pady = 20)
 
-frame_statistic = ctk.CTkFrame(app)
 
+frame_statistic = ctk.CTkFrame(app)
+label = ctk.CTkLabel(frame_statistic, text = "Наряди за місяць")
+label.pack()
 frame_scrollable = ctk.CTkScrollableFrame(frame_statistic)
 frame_scrollable.pack()
+
+        
 
 #кнопки повернення
 btn_back_add_duty = ctk.CTkButton(frame_add_duty, text = "Назад", command = go_back)
